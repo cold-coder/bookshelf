@@ -1,0 +1,123 @@
+html,
+body {
+        font-family: 'Roboto', sans-serif;
+        background: #eee;
+        height: 100%;
+        width: 100%;
+        padding: 40px;
+        margin: 0;
+        color: #2E2E3C;
+        line-height: 24px;
+        -webkit-font-smoothing: antialiased;
+}
+
+* {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        text-rendering: optimizeLegibility;
+}
+
+*::-moz-selection {
+        color: #CFD8DC;
+        background: #009688;
+}
+
+*::selection {
+        color: #CFD8DC;
+        background: #009688;
+}
+
+*::-webkit-scrollbar {
+        width: 10px!important;
+        background: #FAFAFA;
+}
+
+*::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, .08);
+}
+
+*::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, .2);
+}
+
+.container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding-bottom: 50px;
+}
+
+.container>section{
+        margin: 10px 25px 10px 5px;
+}
+
+input[type="text"],
+input[type="email"] {
+  padding: 10px;
+  border: solid 1px #dcdcdc;
+  transition: box-shadow 0.3s, border 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  border: solid 1px #707070;
+  box-shadow: 0 0 5px 1px #969696;
+}
+
+.btn{
+  display: inline-block;
+  zoom: 1;
+  line-height: normal;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.btn{
+  font-family: inherit;
+  font-size: 100%;
+  padding: .5em 1em;
+  color: #444;
+  color: rgba(0,0,0,.8);
+  border: 1px solid #999;
+  border: 0 rgba(0,0,0,0);
+  background-color: #E6E6E6;
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.btn:hover{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#1a000000', GradientType=0);
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(transparent),color-stop(40%,rgba(0,0,0,.05)),to(rgba(0,0,0,.1)));
+  background-image: -webkit-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+  background-image: -moz-linear-gradient(top,rgba(0,0,0,.05) 0,rgba(0,0,0,.1));
+  background-image: -o-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+  background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+}
+/*!
+Pure v0.6.0
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+https://github.com/yahoo/pure/blob/master/LICENSE.md
+*/
+.pure-table{border-collapse:collapse;border-spacing:0;empty-cells:show;border:1px solid #cbcbcb}
+.pure-table caption{color:#000;font:italic 85%/1 arial,sans-serif;padding:1em 0;text-align:center}
+.pure-table td,.pure-table th{border-left:1px solid #cbcbcb;border-width:0 0 0 1px;font-size:inherit;margin:0;overflow:visible;padding:.5em 1em}
+.pure-table td:first-child,.pure-table th:first-child{border-left-width:0}
+.pure-table thead{background-color:#e0e0e0;color:#000;text-align:left;vertical-align:bottom}
+.pure-table td{background-color:transparent}
+.pure-table-odd td{background-color:#f2f2f2}
+.pure-table-striped tr:nth-child(2n-1) td{background-color:#f2f2f2}
+.pure-table-bordered td{border-bottom:1px solid #cbcbcb}
+.pure-table-bordered tbody>tr:last-child>td{border-bottom-width:0}
+.pure-table-horizontal td,.pure-table-horizontal th{border-width:0 0 1px;border-bottom:1px solid #cbcbcb}
+.pure-table-horizontal tbody>tr:last-child>td{border-bottom-width:0}

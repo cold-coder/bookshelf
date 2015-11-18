@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8" />
+<title>CCP Lib Admin</title>
+<script src="./js/underscore.js"></script>
+<script src="./js/jquery-2.1.4.min.js"></script>
+<link type="text/css" rel="stylesheet" href="./style/admin.css" media="all">
+
+</head>
+<body class="language-markup">
+<div class="container">
+	<section>
+		<h2>书籍借阅(<span id="stock_count"></span>)</h2>
+		<div id="book-borrow"></div>
+	</section>
+	<section>
+		<h2>书籍归还(<span id="borrow_count"></span>)</h2>
+		<div id="book-return"></div>
+	</section>
+</div>
+<script type="template" id="tmpl_book_borrow">
+	<table class="pure-table pure-table-horizontal pure-table-striped">
+		<tr><th>书名</th><th>借阅者姓名</th><th>借阅者邮箱</th><th>操作</th></tr>
+		<% _.each(books, function(book){ %>
+			<tr>
+				<td><%= book.info.name %></td>
+				<td><input type="text" id="borrower-name-<%= book._id %>"/></td>
+				<td><input type="email" id="borrower-email-<%= book._id %>"/></td>
+				<td><button data-bookid=<%= book._id %> class="btn btn-borrow">借书</button></td>
+			</tr>
+		<% });%>
+	</table>
+</script>
+<script type="template" id="tmpl_book_return">
+	<table class="pure-table pure-table-horizontal">
+		<tr><th>书名</th><th>借阅者</th><th>到期日期</th><th>操作</th></tr>
+		<% _.each(books, function(book){ 
+			book.dueDate = book.dueDate.slice(0, book.dueDate.indexOf('T'));
+			%>
+			<tr>
+				<td><%= book.info.name %></td>
+				<td><%= book.borrowedBy %></td>
+				<td><%= book.dueDate %></td>
+				<td><button data-bookid=<%= book._id %> class="btn btn_retrun">还书</button></td>
+			</tr>
+		<% });%>
+	</table>
+</script>
+
+<script src="./js/admin.js"></script>
+</body>
+</html>

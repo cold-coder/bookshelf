@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8" />
+<title>CCP Library</title>
+<script src="./js/underscore.js"></script>
+<script src="./js/jquery-2.1.4.min.js"></script>
+<script src="./js/jquery.lightbox_me.js"></script>
+<link type="text/css" rel="stylesheet" href="./style/main.css" media="all">
+<link type="text/css" rel="stylesheet" href="./style/btt.css" media="all">
+</head>
+<body class="language-markup">
+<div class="container">
+	
+</div>
+<a href="#0" class="cd-top">Top</a>
+<footer>Made by #CCP with <b class="btn-liked">&#9829</b></footer>
+
+<script type="template" id="bookCover">
+    <% _.each(books, function(book){ 
+    var available = book.available %>
+    <div class="item card" >
+      <div class="cover" data-bookid=<%= book._id %> style="background-image:url('<%= book.imagePath %>')">
+        <div class=<%= !available? "corner-ribbon top-left sticky red shadow":"hidden"%>>借出</div>
+      </div>
+      <div class="book-title"><b><%= book.info.name %></b></div>
+
+      <div class="action hidden book-like-detail">
+        <div><b class="btn-like <%= book.userLike ? "btn-liked":"btn-unliked" %>" data-bookid=<%= book._id %>>&#9829</b><br>
+        <span>Total <span id="<%= book._id %>-likes"><%= book.likesCount %></span> likes.</span></div>
+        <div class="douban-rate">豆瓣评分： <b><%= book.info.rate %></b></div>
+        <div class="borrow-info"><p>
+          <%= !available?'已借出给 <b>'+book.borrowedBy+'</b><br> 归还日期 '+ book.dueDate.slice(0, book.dueDate.indexOf('T')):'<a href="mailto:yaocheng@ncsi.com.cn?Subject=预约书目：'+book.info.name+'">我要借阅</a>'%>
+        </p>
+        </div>
+      </div>
+    </div>
+  <% }); %>
+</script>
+<script type="template" id="bookInfo">
+  <div class="book-detail hidden" id="book-detail-<%= book._id %>">
+    <div class="book-name"><h3><%= book.info.name %></h3></div>
+    <div class="book-author"><b><%= book.info.author %></b>&nbsp著</div>
+    <div class="book-isbn">ISBN: <%= book.info.isbn %></div>
+    <div class="book-price">售价： <%= book.info.price %></div>
+    <hr>
+    <div class="book-desc">简介：<%= book.info.desc %></div>
+  </div>
+
+</script>
+<script src="./js/main.js"></script>
+<script src="./js/btt.js"></script>
+</body>
+</html>
