@@ -85,6 +85,20 @@ router.get('/return/:id', function(req, res){
 	});
 });
 
+router.get('/active/:id', function(req, res){
+	bookSvc.activeBook(req.params.id, function(book){
+		res.json(book);
+	});
+});
+
+router.get('/deactive/:id', function(req, res){
+	bookSvc.deactiveBook(req.params.id, function(book){
+		res.json(book);
+	});
+});
+
+
+
 
 app.use('/', router);
 

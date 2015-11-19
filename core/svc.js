@@ -30,7 +30,7 @@ bookSvc.unLikeBook = function(id, ipAddress, cb){
 }
 
 bookSvc.listAllBooks = function(ipAddress, cb){
-	Book.find().select({_id:1, info: 1, available:1, borrowedBy:1,dueDate:1, imagePath:1, likeList:1, userLike:1, likesCount:1}).sort({available: -1, "info.name": 1}).exec(function(err, books){
+	Book.find({active : true}).select({_id:1, info: 1, available:1, borrowedBy:1,dueDate:1, imagePath:1, likeList:1, userLike:1, likesCount:1}).sort({available: -1, "info.name": 1}).exec(function(err, books){
 		if (err) throw err;
 		books.forEach(function(book){
 			book.userLike = book.likeList.indexOf(ipAddress) > -1 ? true : false;
@@ -48,14 +48,14 @@ bookSvc.bookDetail = function(bookId, cb){
 }
 
 bookSvc.listAvailableBooks = function(cb){
-	Book.find({available:true}).select({_id:1, info: 1, available:1}).sort({_id: 1}).exec(function(err, books){
+	Book.find({available:true}).select({_id:1, info: 1, available:1, active:1}).sort({"info.name": 1}).exec(function(err, books){
 		if (err) throw err;
 		cb(books);
 	});
 }
 
 bookSvc.listUnavailableBooks = function(cb){
-	Book.find({available:false}).select({_id:1, info: 1, available:1, borrowedBy:1, borrowedEmail:1, borrowedDate:1, dueDate:1}).sort({_id: 1}).exec(function(err, books){
+	Book.find({available:false}).select({_id:1, info: 1, available:1, borrowedBy:1, borrowedEmail:1, borrowedDate:1, dueDate:1}).sort({"info.name": 1}).exec(function(err, books){
 		if (err) throw err;
 		cb(books);
 	});
@@ -108,13 +108,68 @@ bookSvc.returnBook = function(bookId, cb){
 	});
 }
 
+bookSvc.activeBook = function(bookId, cb){
+	Book.findOne({_id: bookId}, function(err, book){
+		if(err) throw err;
+		book.active = true;
+
+		book.save(function(err){
+			if(err) throw err;
+				cb(book);
+		});
+	});
+}
+
+bookSvc.deactiveBook = function(bookId, cb){
+	Book.findOne({_id: bookId}, function(err, book){
+		if(err) throw err;
+		book.active = false;
+
+		book.save(function(err){
+			if(err) throw err;
+				cb(book);
+		});
+	});
+}
+
+
+
+//Book  API
+
+bookSvc.addBook = function(book, cb){
+	var info = {};
+	info.name = book.name;
+	info.author = book.author;
+	info.isbn = book.isbn;
+	info.price = book.price;
+	info.desc = book.desc.replace(/\r\n/g, "<br>&nbsp;&nbsp;&nbsp;&nbsp;");
+	info.rate = book.rate;
+
+	var owner = {};
+	owner.name = !!book.ownername?book.ownername:"CCP";
+	owner.email = !!book.ownername?book.owneremail:"CCP@ncsi.com.cn";
+
+	var b = {};
+	b.info = info;
+	b.owner = owner;
+	b.available = true;
+	b.active = book.active;
+	b.likesCount = 0;
+	b.likeList = [];
+	b.imagePath = book.imagePath;
+
+	Book.create(b, function(err, booked){
+		if(err) throw err;
+		cb(booked);
+	})	
+}
+
 bookSvc.deleteBook = function(bookId, cb){
-	Book.remove({_id: bookId}, function(err, book){
+	Book.remove({_id: bookId}, function(err){
 		if(err) throw err;
 		cb({result:'success'});
 	});
 }
-
 
 
   if (typeof exports !== 'undefined') {
