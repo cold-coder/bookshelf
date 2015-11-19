@@ -8,6 +8,7 @@ $(document).ready(function(){
 	}
 
 	function hookEventBorrow(){
+		//borrow event
 		$('.btn-borrow').on('click', function(){
 			var bookId = $(this).attr('data-bookid');
 			var borrowerName = $('#borrower-name-'+bookId).val();
@@ -33,6 +34,28 @@ $(document).ready(function(){
 
 			}
 		});
+
+		//active/deactive event
+		$('.toggle').change(function(){
+		var bookId = $(this).attr('data-bookid');
+		if($(this).is(':checked')){
+			//active a book
+			$.get('/active/'+bookId)
+			.done(function(book){
+				console.log(book)
+			}).fail(function(error){
+				console.log(error);
+			});
+		}else{
+			//deactive a book
+			$.get('/deactive/'+bookId)
+			.done(function(book){
+				console.log(book)
+			}).fail(function(error){
+				console.log(error);
+			});
+		}
+	})
 	}
 
 

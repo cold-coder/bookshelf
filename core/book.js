@@ -17,6 +17,7 @@ var BookSchema = new Schema({
 		email:String
 	},
 	available:Boolean,
+	active:Boolean,
 	borrowedBy:String,
 	borrowedEmail:String,
 	borrowedDate:Date,
@@ -30,7 +31,7 @@ var BookSchema = new Schema({
 		email:String,
 		borrowDate:Date,
 		returnDate:Date
-		}],
+	}],
 	book_id:Schema.Types.ObjectId
 });
 
