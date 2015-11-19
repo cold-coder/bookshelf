@@ -2,6 +2,18 @@ var express = require('express');
 var app = express();
 var bodyParser 	= require('body-parser');
 var bookSvc = require('./core/svc.js');
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/img/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
+  }
+});
+
+var upload = multer({ storage: storage });
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -76,8 +88,15 @@ router.get('/return/:id', function(req, res){
 
 app.use('/', router);
 
-var routerAPI = express.Router(); 
+var routerAPI = express.Router();
 
+//http://lollyrock.com/articles/express4-file-upload/
+
+routerAPI.post('/upload', upload.single('book_cover'),  function(req, res){
+	console.log(req.body);
+	console.log(req.file);
+	res.json({});
+});
 
 
 app.use('/api', routerAPI);
