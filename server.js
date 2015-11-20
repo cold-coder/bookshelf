@@ -3,6 +3,8 @@ var app = express();
 var bodyParser 	= require('body-parser');
 var bookSvc = require('./core/svc.js');
 var multer = require('multer');
+var basicAuth = require('basic-auth');
+var path = require('path');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -98,7 +100,31 @@ router.get('/deactive/:id', function(req, res){
 });
 
 
+//admin
+// https://davidbeath.com/posts/expressjs-40-basicauth.html
+var auth = function (req, res, next) {
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.sendStatus(401);
+  };
 
+  var user = basicAuth(req);
+
+  if (!user || !user.name || !user.pass) {
+    return unauthorized(res);
+  };
+
+  if (user.name === 'foo' && user.pass === 'bar') {
+    return next();
+  } else {
+    return unauthorized(res);
+  };
+};
+
+
+app.get('/admin', auth, function(req,res){
+  res.sendFile(path.join(__dirname+'/public/imadminpage.html'));
+});
 
 app.use('/', router);
 
