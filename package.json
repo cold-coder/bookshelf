@@ -25,6 +25,7 @@
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "mongoose": "^4.2.6",
-    "multer": "^1.1.0"
+    "multer": "^1.1.0",
+    "serve-favicon": "^2.3.0"
   }
 }

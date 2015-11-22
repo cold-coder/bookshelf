@@ -5,6 +5,7 @@ var bookSvc = require('./core/svc.js');
 var multer = require('multer');
 var basicAuth = require('basic-auth');
 var path = require('path');
+var favicon = require('serve-favicon');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(express.static('public'));
+app.use(favicon(__dirname + '/public/img/favicon.ico'));
 
 var port = process.env.PORT || 8080; //set our port
 
