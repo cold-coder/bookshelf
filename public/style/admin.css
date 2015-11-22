@@ -225,6 +225,18 @@ input.toggle:checked + label:after {
     text-decoration: none;
 }
 
+#menu li.pure-menu-selected {
+  background-color: #1f8dd6;
+}
+
+#menu li.pure-menu-selected a {
+  color: #fff;
+}
+
+#menu li.pure-menu-selected a:hover,#menu li.pure-menu-selected a:focus {
+  background: none;
+}
+
 .pure-menu-list, .pure-menu-item{
   list-style: none;
   margin: 0;
@@ -252,6 +264,7 @@ input.toggle:checked + label:after {
     background: #333;
 }
 
+/*footer*/
 footer{
   position: relative;
   height: 1em;
