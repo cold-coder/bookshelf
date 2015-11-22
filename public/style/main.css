@@ -166,7 +166,7 @@ body {
   color: #000;
 }
 
-.book-title>b:before {
+.book-title>b:after {
   content: "";
   position: absolute;
   width: 100%;
@@ -181,7 +181,7 @@ body {
   transition: all 0.3s ease-in-out 0s;
 }
 
-.book-title>b:hover:before {
+.book-title>b:hover:after {
   visibility: visible;
   -webkit-transform: scaleX(1);
   transform: scaleX(1);

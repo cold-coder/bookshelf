@@ -1,6 +1,25 @@
 $(document).ready(function(){
-	refreshRetrunSection();
 	refreshBorrowSection();
+	$('[id^=sec_book]').hide();
+	$('#sec_book_borrow').show();
+
+	$('#menu_book_borrow').on('click',function(e){
+		refreshBorrowSection();
+		$('#menu>ul>li').removeClass('pure-menu-selected');
+		$(this).parent('li').addClass('pure-menu-selected');
+		$('[id^=sec_book]').hide();
+		$('#sec_book_borrow').show();
+	})
+
+	$('#menu_book_return').on('click',function(e){
+		refreshRetrunSection();
+		$('#menu>ul>li').removeClass('pure-menu-selected');
+		$(this).parent('li').addClass('pure-menu-selected');
+		$('[id^=sec_book]').hide();
+		$('#sec_book_return').show();
+	})
+	
+	
 
 	function validateEmail($email) {
 	  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
@@ -118,10 +137,6 @@ $(document).ready(function(){
 			$('#book-borrow').html(html);
 			hookEventBorrow();
 		};
-	}
-
-	function formatDate(d){
-		console.log(typeof d);
 	}
 
 });
