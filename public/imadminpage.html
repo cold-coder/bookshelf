@@ -11,14 +11,32 @@
 </head>
 <body class="language-markup">
 <div class="container">
-	<section>
-		<h2>书籍借阅(<span id="stock_count"></span>)</h2>
-		<div id="book-borrow"></div>
-	</section>
-	<section>
-		<h2>书籍归还(<span id="borrow_count"></span>)</h2>
-		<div id="book-return"></div>
-	</section>
+	<div id="menu" class="pure-menu">
+		<a href="/" class="pure-menu-heading">CCP Lib</a>
+		<ul class="pure-menu-list">
+			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_borrow">书籍借阅</a></li>
+			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_return">书籍归还</a></li>
+			<li class="pure-menu-item"></li>
+			<li class="pure-menu-item"></li>
+		</ul>
+	</div>
+	<div id="main">	
+		<section id="sec_book_borrow">
+			<h2>书籍借阅(<span id="stock_count"></span>)</h2>
+			<div id="book-borrow"></div>
+		</section>
+		<section id="sec_book_return">
+			<h2>书籍归还(<span id="borrow_count"></span>)</h2>
+			<div id="book-return"></div>
+		</section>
+		<section id="sec_book_mgnt">
+			
+		</section>
+		<section id="sec_book_add">
+			
+		</section>
+	</div>
+<footer>Made by #CCP with <b class="btn-liked">&#9829</b></footer>
 </div>
 <script type="template" id="tmpl_book_borrow">
 	<table class="pure-table pure-table-horizontal pure-table-striped">
