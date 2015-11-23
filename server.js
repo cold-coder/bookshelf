@@ -134,10 +134,22 @@ var routerAPI = express.Router();
 
 //http://lollyrock.com/articles/express4-file-upload/
 
-routerAPI.post('/upload', upload.single('book_cover'),  function(req, res){
-	console.log(req.body);
-	console.log(req.file);
-	res.json({});
+routerAPI.post('/book', upload.single('book_cover'),  function(req, res){
+	var book = {};
+	book['name'] = req.body.book_name;
+	book['author'] = req.body.book_author;
+	book['isbn'] = req.body.book_isbn;
+	book['price'] = req.body.book_price;
+	book['desc'] = req.body.book_desc;
+	book['rate'] = req.body.book_rate;
+	book['ownername'] = req.body.book_ownername;
+	book['owneremail'] = req.body.book_owneremail;
+	book['imagePath'] = req.file.originalname;
+
+	bookSvc.addBook(book, function(err, book){
+		if(err) throw err;
+		res.redirect('/admin');
+	})
 });
 
 

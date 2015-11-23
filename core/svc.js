@@ -156,7 +156,7 @@ bookSvc.addBook = function(book, cb){
 	b.active = book.active;
 	b.likesCount = 0;
 	b.likeList = [];
-	b.imagePath = book.imagePath;
+	b.imagePath = './img/' + book.imagePath;
 
 	Book.create(b, function(err, booked){
 		if(err) throw err;
