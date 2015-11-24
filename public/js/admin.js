@@ -26,7 +26,7 @@ $(document).ready(function(){
 	  return emailReg.test( $email );
 	}
 
-	function hookEventBorrow(){
+	function hookEventBorrowSection(){
 		//borrow event
 		$('.btn-borrow').on('click', function(){
 			var bookId = $(this).attr('data-bookid');
@@ -43,7 +43,8 @@ $(document).ready(function(){
 				if (confirm("确认借阅？") == true) {
 					$.post('/borrow', borrower)
 						.done(function(book){
-							location.reload();
+							toastr.success('借阅成功！');
+							refreshBorrowSection();
 						}).fail(function(error){
 							console.log(error);
 						});
@@ -135,7 +136,7 @@ $(document).ready(function(){
 			var html = compiled({"books" : data});
 
 			$('#book-borrow').html(html);
-			hookEventBorrow();
+			hookEventBorrowSection();
 		};
 	}
 

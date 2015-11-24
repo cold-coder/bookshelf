@@ -6,8 +6,9 @@
 <title>CCP Lib Admin</title>
 <script src="./js/underscore.js"></script>
 <script src="./js/jquery-2.1.4.min.js"></script>
+<script src="./js/toastr.min.js"></script>
 <link type="text/css" rel="stylesheet" href="./style/admin.css" media="all">
-
+<link rel="stylesheet" type="text/css" href="./style/toastr.min.css">
 </head>
 <body class="language-markup">
 <div class="container">
@@ -38,7 +39,7 @@
 </div>
 <script type="template" id="tmpl_book_borrow">
 	<table class="pure-table pure-table-horizontal pure-table-striped">
-		<tr><th>书名</th><th>借阅者姓名</th><th>借阅者邮箱</th><th>操作</th><th>是否展示</th></tr>
+		<tr><th>书名</th><th>借阅者姓名</th><th>借阅者邮箱</th><th>操作</th><th>是否展示</th><th>删除</th></tr>
 		<% _.each(books, function(book){ %>
 			<tr>
 				<td><%= book.info.name %></td>
@@ -46,6 +47,7 @@
 				<td><input type="email" id="borrower-email-<%= book._id %>"/></td>
 				<td><button data-bookid=<%= book._id %> class="btn btn-borrow">借书</button></td>
 				<td><input type="checkbox" class="toggle" id="chk-<%= book._id %>" data-bookid=<%= book._id %> <%= book.active?"checked":"" %>><label for="chk-<%= book._id %>"></label></td>
+				<td><button data-bookid=<%= book._id %> class="btn btn-delete">删除</button></td>
 			</tr>
 		<% });%>
 	</table>
