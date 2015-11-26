@@ -1,5 +1,6 @@
 var mongoose	= require('mongoose');
-var Book		= require('./book');
+var Book	= require('./book');
+var fs = require('fs');
 
 var bookSvc = {};
 
@@ -165,9 +166,14 @@ bookSvc.addBook = function(book, cb){
 }
 
 bookSvc.deleteBook = function(bookId, cb){
-	Book.remove({_id: bookId}, function(err){
-		if(err) throw err;
-		cb({result:'success'});
+	Book.findOneAndRemove({_id: bookId}, function(err, doc){
+		if(err) throw cb(err);
+		//got the doc and remove the cover
+		// console.log(doc.imagePath); //./img/
+		fs.unlink('./public/'+doc.imagePath, function(err){
+			if(err) cb(err);
+			cb(null, {result:'success'});
+		})
 	});
 }
 
