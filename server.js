@@ -152,6 +152,13 @@ routerAPI.post('/book', upload.single('book_cover'),  function(req, res){
 	})
 });
 
+routerAPI.delete('/book/:id', function(req, res){
+	bookSvc.deleteBook(req.params.id, function(err, result){
+		if(err) throw err;
+		res.json(result);
+	});
+});
+
 
 app.use('/api', routerAPI);
 
