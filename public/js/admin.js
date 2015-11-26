@@ -3,21 +3,32 @@ $(document).ready(function(){
 	$('[id^=sec_book]').hide();
 	$('#sec_book_borrow').show();
 
+	//Active book borrow section
 	$('#menu_book_borrow').on('click',function(e){
 		refreshBorrowSection();
 		$('#menu>ul>li').removeClass('pure-menu-selected');
 		$(this).parent('li').addClass('pure-menu-selected');
 		$('[id^=sec_book]').hide();
 		$('#sec_book_borrow').show();
-	})
+	});
 
+	//Active book return section
 	$('#menu_book_return').on('click',function(e){
 		refreshRetrunSection();
 		$('#menu>ul>li').removeClass('pure-menu-selected');
 		$(this).parent('li').addClass('pure-menu-selected');
 		$('[id^=sec_book]').hide();
 		$('#sec_book_return').show();
-	})
+	});
+	
+	//Active book add section
+	$('#menu_book_add').on('click',function(e){
+		refreshAddSection();
+		$('#menu>ul>li').removeClass('pure-menu-selected');
+		$(this).parent('li').addClass('pure-menu-selected');
+		$('[id^=sec_book]').hide();
+		$('#sec_book_add').show();
+	});
 	
 	
 
@@ -138,6 +149,27 @@ $(document).ready(function(){
 			$('#book-borrow').html(html);
 			hookEventBorrowSection();
 		};
+	}
+	
+	function refreshAddSection(){
+		var covers;
+
+		$('#id_book_cover').on('change', prepareUpload);
+
+		function prepareUpload(event){
+			cover = event.target.files[0];
+			if(!cover.type.match('image.*')) return;
+			var reader = new FileReader();
+
+			reader.onload = (function(theFile){
+				return function(e){
+					$('#cover_thumb').prop('src', e.target.result);
+					$('#cover_thumb').prop('title', escape(theFile.name));
+				}
+			})(cover);
+
+			reader.readAsDataURL(cover);
+		}
 	}
 
 });
