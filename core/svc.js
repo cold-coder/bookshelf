@@ -154,15 +154,15 @@ bookSvc.addBook = function(book, cb){
 	b.info = info;
 	b.owner = owner;
 	b.available = true;
-	b.active = book.active;
+	b.active = true;
 	b.likesCount = 0;
 	b.likeList = [];
 	b.imagePath = './img/' + book.imagePath;
 
 	Book.create(b, function(err, booked){
-		if(err) throw err;
-		cb(booked);
-	})	
+		if(err) cb(err);
+		cb(null, booked);
+	});
 }
 
 bookSvc.deleteBook = function(bookId, cb){

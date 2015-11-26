@@ -12,7 +12,7 @@ var storage = multer.diskStorage({
     cb(null, 'public/img/')
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname)
+    cb(null, file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0,10) + path.extname(file.originalname));
   }
 });
 
@@ -134,7 +134,7 @@ var routerAPI = express.Router();
 
 //http://lollyrock.com/articles/express4-file-upload/
 
-routerAPI.post('/book', upload.single('book_cover'),  function(req, res){
+routerAPI.post('/book', upload.single('book_cover'), function(req, res){
 	var book = {};
 	book['name'] = req.body.book_name;
 	book['author'] = req.body.book_author;
@@ -144,7 +144,7 @@ routerAPI.post('/book', upload.single('book_cover'),  function(req, res){
 	book['rate'] = req.body.book_rate;
 	book['ownername'] = req.body.book_ownername;
 	book['owneremail'] = req.body.book_owneremail;
-	book['imagePath'] = req.file.originalname;
+	book['imagePath'] = req.file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0,10) + path.extname(req.file.originalname);
 
 	bookSvc.addBook(book, function(err, book){
 		if(err) throw err;

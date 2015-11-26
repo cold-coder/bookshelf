@@ -44,14 +44,16 @@ body {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+textarea {
   padding: 10px;
   border: solid 1px #dcdcdc;
   transition: box-shadow 0.3s, border 0.3s;
 }
 
 input[type="text"]:focus,
-input[type="email"]:focus {
+input[type="email"]:focus,
+textarea:focus {
   border: solid 1px #707070;
   box-shadow: 0 0 5px 1px #969696;
 }
@@ -286,7 +288,7 @@ footer{
 
 /*Upload Section*/
 .thumb {
-    height: 75px;
+    height: 150px;
     margin: 10px 5px 0 0;
 }
 
