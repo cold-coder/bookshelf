@@ -18,7 +18,7 @@
 			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_borrow">书籍借阅</a></li>
 			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_return">书籍归还</a></li>
 			<li class="pure-menu-item"></li>
-			<li class="pure-menu-item"></li>
+			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_add">书籍添加</a></li>
 		</ul>
 	</div>
 	<div id="main">	
@@ -33,6 +33,50 @@
 		<section id="sec_book_mgnt">
 		</section>
 		<section id="sec_book_add">
+			<form action="/api/book" method="post" enctype="multipart/form-data">
+			<ul class="form-addbook">
+			    <li>
+			      <label>Book Name <span class="required">*</span></label>
+			      <input type="text" id="id_book_name" name="book_name" class="field-long" placeholder="穆斯林的葬礼" required/></li>
+			    <li>
+			        <label>Author <span class="required">*</span></label>
+			        <input type="text" name="book_author" class="field-long" placeholder="霍达" required/>
+			    </li>
+			    <li>
+			        <label>ISBN</label>
+			        <input type="text" name="book_isbn" class="field-long" placeholder="9787530212233"/>
+			    </li>
+			    <li>
+			        <label>Price<span class="required">*</span></label>
+			        <input type="text" name="book_price" class="field-divided" placeholder="39.8" required/>
+			    </li>
+			    <li>
+			        <label>Description<span class="required">*</span></label>
+			        <textarea name="book_desc" class="field-long field-textarea" placeholder="《穆斯林的葬礼》是一部长篇小说，一个穆斯林家族，六十年间的兴衰，三代人命运的沉浮..." required></textarea>
+			    </li>
+			    <li>
+			        <label>Douban Rate<span class="required">*</span></label>
+			        <input type="text" name="book_rate" class="field-divided" placeholder="8.4" required/>
+			    </li>
+			    <li>
+			        <label>Owner</label>
+			        <input type="text" name="book_ownername" class="field-divided" placeholder="Wu Feng Xian"/>
+			        <input type="text" name="book_owneremail" class="field-divided" placeholder="fengxian@ncsi.com.cn"/>
+			    </li>
+			    <li>
+			        <label>Cover<span class="required">*</span></label>
+			        <input type="file" name="book_cover" id="id_book_cover" required>
+			    </li>
+			    <li>
+			        <label>Preview</label>
+			        <span><img id="cover_thumb" class="thumb"/></span>
+			    </li>
+
+			    <li>
+			        <input type="submit" class="btn_upload" value="Submit" />
+			    </li>
+			</ul>
+			</form>	
 		</section>
 	</div>
 <footer>Made by #CCP with <b class="btn-liked">&#9829</b></footer>
