@@ -44,14 +44,16 @@ body {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+textarea {
   padding: 10px;
   border: solid 1px #dcdcdc;
   transition: box-shadow 0.3s, border 0.3s;
 }
 
 input[type="text"]:focus,
-input[type="email"]:focus {
+input[type="email"]:focus,
+textarea:focus {
   border: solid 1px #707070;
   box-shadow: 0 0 5px 1px #969696;
 }
@@ -94,6 +96,31 @@ input[type="email"]:focus {
   background-image: -moz-linear-gradient(top,rgba(0,0,0,.05) 0,rgba(0,0,0,.1));
   background-image: -o-linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
   background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
 }
 /*!
 Pure v0.6.0
@@ -282,4 +309,63 @@ footer{
 
 .btn-liked:hover{
   font-size: 130%;
+}
+
+/*Upload Section*/
+.thumb {
+    height: 150px;
+    margin: 10px 5px 0 0;
+}
+
+form{
+  width: 700px;
+}
+
+.form-addbook {
+    margin:10px auto;
+    max-width: 400px;
+    padding: 20px 12px 10px 20px;
+    font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+.form-addbook li {
+    padding: 0;
+    display: block;
+    list-style: none;
+    margin: 10px 0 0 0;
+}
+.form-addbook label{
+    margin:0 0 3px 0;
+    padding:0px;
+    display:block;
+    font-weight: bold;
+}
+ 
+
+.form-addbook .field-divided{
+    width: 49%;
+}
+
+.form-addbook .field-long{
+    width: 100%;
+}
+.form-addbook .field-select{
+    width: 100%;
+}
+.form-addbook .field-textarea{
+    height: 100px;
+}
+.form-addbook input[type=submit], .form-addbook input[type=button]{
+    background: #4B99AD;
+    padding: 8px 15px 8px 15px;
+    border: none;
+    color: #fff;
+}
+.form-addbook input[type=submit]:hover, .form-addbook input[type=button]:hover{
+    background: #4691A4;
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+}
+.form-addbook .required{
+    color:red;
 }

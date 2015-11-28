@@ -1,5 +1,6 @@
 var mongoose	= require('mongoose');
-var Book		= require('./book');
+var Book	= require('./book');
+var fs = require('fs');
 
 var bookSvc = {};
 
@@ -72,7 +73,7 @@ bookSvc.searchBook = function(bookName, cb){
 
 bookSvc.borrowBook = function(bookId, borrower, cb){
 	Book.findOne({_id: bookId}, function(err, book){
-		if(err) throw err;
+		if(err)  cb(err);
 		var now = new Date();
 		book.borrowedBy = borrower.name;
 		book.borrowedEmail = borrower.email;
@@ -81,15 +82,15 @@ bookSvc.borrowBook = function(bookId, borrower, cb){
 		book.dueDate = now.setMonth(now.getMonth() + 1);
 		book.available = false;
 		book.save(function(err){
-			if(err) throw err;
-			cb(book);
+			if(err) cb(err);
+			cb(null, book);
 		});
 	});
 }
 
 bookSvc.returnBook = function(bookId, cb){
 	Book.findOne({_id: bookId}, function(err, book){
-		if(err) throw err;
+		if(err) cb(err);
 		book.borrowHistory.push({
 			who:book.borrowedBy,
 			email:book.borrowedEmail,
@@ -102,8 +103,8 @@ bookSvc.returnBook = function(bookId, cb){
 		book.borrowedDate = null;
 		book.dueDate = null;
 		book.save(function(err){
-			if(err) throw err;
-				cb(book);
+			if(err) cb(err);
+				cb(null, book);
 		});
 	});
 }
@@ -153,21 +154,26 @@ bookSvc.addBook = function(book, cb){
 	b.info = info;
 	b.owner = owner;
 	b.available = true;
-	b.active = book.active;
+	b.active = true;
 	b.likesCount = 0;
 	b.likeList = [];
-	b.imagePath = book.imagePath;
+	b.imagePath = './img/' + book.imagePath;
 
 	Book.create(b, function(err, booked){
-		if(err) throw err;
-		cb(booked);
-	})	
+		if(err) cb(err);
+		cb(null, booked);
+	});
 }
 
 bookSvc.deleteBook = function(bookId, cb){
-	Book.remove({_id: bookId}, function(err){
-		if(err) throw err;
-		cb({result:'success'});
+	Book.findOneAndRemove({_id: bookId}, function(err, doc){
+		if(err) throw cb(err);
+		//got the doc and remove the cover
+		// console.log(doc.imagePath); //./img/
+		fs.unlink('./public/'+doc.imagePath, function(err){
+			if(err) cb(err);
+			cb(null, doc);
+		})
 	});
 }
 

@@ -55,6 +55,30 @@ var bookSvc = require('./svc.js');
 // 	console.log(book);
 // });
 
-bookSvc.deleteBook('511180b408979ab50801eb1', function(book){
-	console.log(book);
+// bookSvc.deleteBook('511180b408979ab50801eb1', function(book){
+// 	console.log(book);
+// });
+
+var book = {};
+	book['name'] = "some name";
+	book['author'] = "Allen";
+	book['isbn'] = "123456789";
+	book['price'] = "99.9";
+	book['desc'] = "long desc";
+	book['rate'] = "7.4";
+	book['ownername'] = "";
+	book['owneremail'] = "";
+	book['imagePath'] = "img/somepath";
+	
+bookSvc.addBook(book, function(booked){
+	console.log(booked);
 });
+
+
+
+
+
+
+
+
+
