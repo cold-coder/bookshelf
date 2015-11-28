@@ -89,9 +89,9 @@
 				<td><%= book.info.name %></td>
 				<td><input type="text" id="borrower-name-<%= book._id %>"/></td>
 				<td><input type="email" id="borrower-email-<%= book._id %>"/></td>
-				<td><button data-bookid=<%= book._id %> class="btn btn-borrow">借书</button></td>
+				<td><button data-bookid=<%= book._id %> class="btn btn-borrow button-secondary">借书</button></td>
 				<td><input type="checkbox" class="toggle" id="chk-<%= book._id %>" data-bookid=<%= book._id %> <%= book.active?"checked":"" %>><label for="chk-<%= book._id %>"></label></td>
-				<td><button data-bookid=<%= book._id %> class="btn btn-delete">删除</button></td>
+				<td><button data-bookid=<%= book._id %> class="btn btn-delete button-error">删除</button></td>
 			</tr>
 		<% });%>
 	</table>
@@ -106,7 +106,7 @@
 				<td><%= book.info.name %></td>
 				<td><%= book.borrowedBy %></td>
 				<td><%= book.dueDate %></td>
-				<td><button data-bookid=<%= book._id %> class="btn btn_retrun">还书</button></td>
+				<td><button data-bookid=<%= book._id %> class="btn btn_retrun button-success">还书</button></td>
 			</tr>
 		<% });%>
 	</table>

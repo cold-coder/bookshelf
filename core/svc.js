@@ -73,7 +73,7 @@ bookSvc.searchBook = function(bookName, cb){
 
 bookSvc.borrowBook = function(bookId, borrower, cb){
 	Book.findOne({_id: bookId}, function(err, book){
-		if(err) throw err;
+		if(err)  cb(err);
 		var now = new Date();
 		book.borrowedBy = borrower.name;
 		book.borrowedEmail = borrower.email;
@@ -82,15 +82,15 @@ bookSvc.borrowBook = function(bookId, borrower, cb){
 		book.dueDate = now.setMonth(now.getMonth() + 1);
 		book.available = false;
 		book.save(function(err){
-			if(err) throw err;
-			cb(book);
+			if(err) cb(err);
+			cb(null, book);
 		});
 	});
 }
 
 bookSvc.returnBook = function(bookId, cb){
 	Book.findOne({_id: bookId}, function(err, book){
-		if(err) throw err;
+		if(err) cb(err);
 		book.borrowHistory.push({
 			who:book.borrowedBy,
 			email:book.borrowedEmail,
@@ -103,8 +103,8 @@ bookSvc.returnBook = function(bookId, cb){
 		book.borrowedDate = null;
 		book.dueDate = null;
 		book.save(function(err){
-			if(err) throw err;
-				cb(book);
+			if(err) cb(err);
+				cb(null, book);
 		});
 	});
 }
@@ -172,7 +172,7 @@ bookSvc.deleteBook = function(bookId, cb){
 		// console.log(doc.imagePath); //./img/
 		fs.unlink('./public/'+doc.imagePath, function(err){
 			if(err) cb(err);
-			cb(null, {result:'success'});
+			cb(null, doc);
 		})
 	});
 }

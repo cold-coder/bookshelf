@@ -78,14 +78,23 @@ router.post('/borrow', function(req, res){
 	var borrower = {};
 	borrower.name = req.body.name;
 	borrower.email = req.body.email;
-	bookSvc.borrowBook(bookId, borrower, function(book){
-		res.json(book);
+	bookSvc.borrowBook(bookId, borrower, function(err, book){
+		if(err){
+			res.json({success: false, data: err});
+		}else{
+			res.json({success: true, data: book.info});
+		}
 	});
 });
 
 router.get('/return/:id', function(req, res){
-	bookSvc.returnBook(req.params.id, function(book){
-		res.json(book);
+	bookSvc.returnBook(req.params.id, function(err, book){
+		if(err){
+			res.json({success: false, data: err});
+		}else{
+			res.json({success: true, data: book.info});			
+		}
+
 	});
 });
 
@@ -153,9 +162,12 @@ routerAPI.post('/book', upload.single('book_cover'), function(req, res){
 });
 
 routerAPI.delete('/book/:id', function(req, res){
-	bookSvc.deleteBook(req.params.id, function(err, result){
-		if(err) throw err;
-		res.json(result);
+	bookSvc.deleteBook(req.params.id, function(err, book){
+		if(err) {
+			res.json({success: false, data:err});
+		}else{
+			res.json({success: true, data:book.info});
+		}
 	});
 });
 

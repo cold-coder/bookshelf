@@ -14,7 +14,7 @@ $(document).ready(function(){
 
 	//Active book return section
 	$('#menu_book_return').on('click',function(e){
-		refreshRetrunSection();
+		refreshReturnSection();
 		$('#menu>ul>li').removeClass('pure-menu-selected');
 		$(this).parent('li').addClass('pure-menu-selected');
 		$('[id^=sec_book]').hide();
@@ -53,10 +53,17 @@ $(document).ready(function(){
 				borrower['email'] = borrowerEmail;
 				if (confirm("确认借阅？") == true) {
 					$.post('/borrow', borrower)
-						.done(function(book){
-							toastr.success('借阅成功！');
-							refreshBorrowSection();
-						}).fail(function(error){
+						.done(function(result){
+							if(result.success == true){
+								toastr.success(result.data.name, '借阅成功！');
+								refreshBorrowSection();	
+							}else{
+								toastr.error('借阅失败！');
+								console.log(result.data);
+							}
+						})
+						.fail(function(error){
+							toastr.error('借阅失败！');
 							console.log(error);
 						});
 				} else {
@@ -68,25 +75,51 @@ $(document).ready(function(){
 
 		//active/deactive event
 		$('.toggle').change(function(){
-		var bookId = $(this).attr('data-bookid');
-		if($(this).is(':checked')){
-			//active a book
-			$.get('/active/'+bookId)
-			.done(function(book){
-				console.log(book)
-			}).fail(function(error){
-				console.log(error);
-			});
-		}else{
-			//deactive a book
-			$.get('/deactive/'+bookId)
-			.done(function(book){
-				console.log(book)
-			}).fail(function(error){
-				console.log(error);
-			});
-		}
-	})
+			var bookId = $(this).attr('data-bookid');
+			if($(this).is(':checked')){
+				//active a book
+				$.get('/active/'+bookId)
+				.done(function(book){
+					console.log(book)
+				}).fail(function(error){
+					console.log(error);
+				});
+			}else{
+				//deactive a book
+				$.get('/deactive/'+bookId)
+				.done(function(book){
+					console.log(book)
+				}).fail(function(error){
+					console.log(error);
+				});
+			}
+		});
+
+		//delete button event
+		$('.btn-delete').on('click', function(){
+			var bookId = $(this).attr('data-bookid');
+			if (confirm("确认删除？") == true) {
+				$.ajax({
+					url:'/api/book/'+bookId,
+					type: 'DELETE'
+				})
+					.done(function(result){
+						if(result.success == true){
+							toastr.success(result.data.name, '删除成功！');
+							refreshBorrowSection();
+						}else{
+							toastr.error('删除失败！');
+							console.log(result.data);
+						}
+					}).fail(function(error){
+						toastr.error('删除失败！');
+						console.log(error);
+					});
+			} else {
+				return;
+			}
+		});
+
 	}
 
 
@@ -96,9 +129,17 @@ $(document).ready(function(){
 			if (confirm("确认还书？") == true) {
 				var bookId = $(this).attr('data-bookid');
 				$.get('/return/'+bookId)
-					.done(function(book){
-						location.reload();
+					.done(function(result){
+						if(result.success == true){
+							toastr.success(result.data.name, '还书成功！');
+							refreshReturnSection();							
+						}else{
+							toastr.error('还书失败！');
+							console.log(result.data);
+						}
+
 					}).fail(function(error){
+						toastr.error('还书失败！');
 						console.log(error);
 					});
 			} else {
@@ -109,7 +150,7 @@ $(document).ready(function(){
 
 
 
-	function refreshRetrunSection(){
+	function refreshReturnSection(){
 		$.get('/listunavailable')
 		.done(function(data){
 			handleBookRetrun(data);
