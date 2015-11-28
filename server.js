@@ -166,7 +166,7 @@ routerAPI.delete('/book/:id', function(req, res){
 		if(err) {
 			res.json({success: false, data:err});
 		}else{
-			res.json({success: true, data:book.info});
+			res.json({success: true, data: book.info});
 		}
 	});
 });
