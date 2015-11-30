@@ -369,3 +369,19 @@ form{
 .form-addbook .required{
     color:red;
 }
+
+/*Fast add section*/
+#sec_book_fastadd{
+  padding: 70px 40px;
+}
+
+#fastadd_isbn{
+  width: 200px;
+  height: 45px;
+  font-size: 1rem;
+}
+
+#btn_fastadd{
+  height: 45px;
+  margin-left: 10px;
+}

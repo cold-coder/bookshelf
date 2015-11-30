@@ -156,7 +156,7 @@ bookSvc.addDoubanBook = function(isbn, cb){
 		owner.email = !!book.ownername?book.owneremail:"CCP@ncsi.com.cn";
 
 		var filename = path.basename(book.coverPath);
-		var fileLocation = '../public/img/'+filename;
+		var fileLocation = './public/img/'+filename;
 
 		request(book.coverPath.replace("mpic","lpic")).pipe(fs.createWriteStream(fileLocation));
 

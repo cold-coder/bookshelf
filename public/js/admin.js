@@ -21,6 +21,15 @@ $(document).ready(function(){
 		$('#sec_book_return').show();
 	});
 	
+	//Fast add book  section
+	$('#menu_book_fastadd').on('click',function(e){
+		refreshFastAddSection();
+		$('#menu>ul>li').removeClass('pure-menu-selected');
+		$(this).parent('li').addClass('pure-menu-selected');
+		$('[id^=sec_book]').hide();
+		$('#sec_book_fastadd').show();
+	});
+
 	//Active book add section
 	$('#menu_book_add').on('click',function(e){
 		refreshAddSection();
@@ -35,6 +44,34 @@ $(document).ready(function(){
 	function validateEmail($email) {
 	  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	  return emailReg.test( $email );
+	}
+
+	function isValidISBN (isbn) {
+		isbn = isbn.replace(/[^\dX]/gi, '');
+		if(isbn.length == 10) {
+		        var chars = isbn.split('');
+		        if(chars[9].toUpperCase() == 'X') {
+		                chars[9] = 10;
+		        }
+		        var sum = 0;
+		        for(var i = 0; i < chars.length; i++) {
+		                sum += ((10-i) * parseInt(chars[i]));
+		        }
+		        return (sum % 11 == 0);
+		} else if(isbn.length == 13) {
+		        var chars = isbn.split('');
+		        var sum = 0;
+		        for (var i = 0; i < chars.length; i++) {
+		                if(i % 2 == 0) {
+		                        sum += parseInt(chars[i]);
+		                } else {
+		                        sum += parseInt(chars[i]) * 3;
+		                }
+		        }
+		        return (sum % 10 == 0);
+		} else {
+		        return false;
+		}
 	}
 
 	function hookEventBorrowSection(){
@@ -211,6 +248,30 @@ $(document).ready(function(){
 
 			reader.readAsDataURL(cover);
 		}
+	}
+
+	function refreshFastAddSection(){
+		$('#btn_fastadd').on('click', function(){
+			var isbn = $('#fastadd_isbn').val();
+			if(isValidISBN(isbn)){
+				$.get('/fastadd/' + isbn)
+				.done(function(result){
+							if(result.success == true){
+								toastr.success(result.data.name, '成功入库！');
+								$('#fastadd_isbn').val("");						
+							}else{
+								toastr.error('入库失败！');
+								console.log(result.data);
+							}
+				}).fail(function(error){
+					toastr.error('入库失败！');
+					console.log(error);
+				})
+			}else{
+				toastr.error("invalid ISBN!");
+				return;
+			}
+		})
 	}
 
 });

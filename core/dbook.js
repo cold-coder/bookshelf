@@ -47,6 +47,8 @@ var dbook = function(isbn, cb){
 						}
 					})
 					//.pipe(fs.createWriteStream('bookDetail.html'));
+				}else{
+					cb(new Error("cannot access Douban Book!"));
 				}
 			})
 			//.pipe(fs.createWriteStream('bookList.html')); 		
