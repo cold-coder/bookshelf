@@ -1,6 +1,9 @@
 var mongoose	= require('mongoose');
 var Book	= require('./book');
 var fs = require('fs');
+var path = require('path');
+var request = require('request');
+var dbook = require('./dbook');
 
 var bookSvc = {};
 
@@ -136,6 +139,44 @@ bookSvc.deactiveBook = function(bookId, cb){
 
 
 //Book  API
+
+bookSvc.addDoubanBook = function(isbn, cb){
+	dbook(isbn, function(err, book){
+		if(err) cb(err);
+		var info = {};
+		info.name = book.name;
+		info.author = book.author;
+		info.isbn = book.isbn;
+		info.price = book.price;
+		info.desc = book.desc.replace(/\n/g, "<br>&nbsp;&nbsp;&nbsp;&nbsp;");
+		info.rate = book.rate;
+
+		var owner = {};
+		owner.name = !!book.ownername?book.ownername:"CCP";
+		owner.email = !!book.ownername?book.owneremail:"CCP@ncsi.com.cn";
+
+		var filename = path.basename(book.coverPath);
+		var fileLocation = './public/img/'+filename;
+
+		request(book.coverPath.replace("mpic","lpic")).pipe(fs.createWriteStream(fileLocation));
+
+		var b = {};
+		b.info = info;
+		b.owner = owner;
+		b.available = true;
+		b.active = true;
+		b.likesCount = 0;
+		b.likeList = [];
+		b.imagePath = './img/' + filename;
+
+
+		Book.create(b, function(err, booked){
+			if(err) cb(err);
+			cb(null, booked);
+		});
+
+	})
+}
 
 bookSvc.addBook = function(book, cb){
 	var info = {};

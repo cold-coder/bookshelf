@@ -137,6 +137,18 @@ app.get('/admin', auth, function(req,res){
   res.sendFile(path.join(__dirname+'/public/imadminpage.html'));
 });
 
+app.get('/fastadd/:isbn', function(req, res){
+	var isbn = req.params.isbn;
+	//validation for isbn
+	bookSvc.addDoubanBook(isbn, function(err, book){
+		if(err){
+			res.json({success: false, data:err});
+		}else{
+			res.json({success: true, data: book.info});
+		}
+	});
+})
+
 app.use('/', router);
 
 var routerAPI = express.Router();
@@ -166,7 +178,7 @@ routerAPI.delete('/book/:id', function(req, res){
 		if(err) {
 			res.json({success: false, data:err});
 		}else{
-			res.json({success: true, data:book.info});
+			res.json({success: true, data: book.info});
 		}
 	});
 });

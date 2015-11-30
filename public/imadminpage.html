@@ -17,7 +17,7 @@
 		<ul class="pure-menu-list">
 			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_borrow">书籍借阅</a></li>
 			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_return">书籍归还</a></li>
-			<li class="pure-menu-item"></li>
+			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_fastadd">一键入库</a></li>
 			<li class="pure-menu-item"><a href="#" class="pure-menu-link" id="menu_book_add">书籍添加</a></li>
 		</ul>
 	</div>
@@ -30,7 +30,8 @@
 			<h2>书籍归还(<span id="borrow_count"></span>)</h2>
 			<div id="book-return"></div>
 		</section>
-		<section id="sec_book_mgnt">
+		<section id="sec_book_fastadd">
+			<input type="text" class="field-long" placeholder="ISBN" id="fastadd_isbn"/><button class="btn button-warning" id="btn_fastadd">一键入库</button>
 		</section>
 		<section id="sec_book_add">
 			<form action="/api/book" method="post" enctype="multipart/form-data">
