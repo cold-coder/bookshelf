@@ -174,8 +174,13 @@ routerAPI.post('/book', upload.single('book_cover'), function(req, res){
 	book['imagePath'] = req.file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0,10) + path.extname(req.file.originalname);
 
 	bookSvc.addBook(book, function(err, book){
-		if(err) throw err;
-		res.redirect('/admin');
+		if(err){
+			res.json({success: false, data:err});
+			return;
+		}else{
+			res.json({success: true, data: book.info});
+			return;
+		}
 	})
 });
 

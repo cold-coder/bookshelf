@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	refreshBorrowSection();
+	hookPageEvent();
 	$('[id^=sec_book]').hide();
 	$('#sec_book_borrow').show();
 
@@ -21,9 +22,8 @@ $(document).ready(function(){
 		$('#sec_book_return').show();
 	});
 	
-	//Fast add book  section
+	//Fast add book section
 	$('#menu_book_fastadd').on('click',function(e){
-		refreshFastAddSection();
 		$('#menu>ul>li').removeClass('pure-menu-selected');
 		$(this).parent('li').addClass('pure-menu-selected');
 		$('[id^=sec_book]').hide();
@@ -32,7 +32,6 @@ $(document).ready(function(){
 
 	//Active book add section
 	$('#menu_book_add').on('click',function(e){
-		refreshAddSection();
 		$('#menu>ul>li').removeClass('pure-menu-selected');
 		$(this).parent('li').addClass('pure-menu-selected');
 		$('[id^=sec_book]').hide();
@@ -74,7 +73,7 @@ $(document).ready(function(){
 		}
 	}
 
-	function hookEventBorrowSection(){
+	function hookEventBorrow(){
 		//borrow event
 		$('.btn-borrow').on('click', function(){
 			var bookId = $(this).attr('data-bookid');
@@ -140,18 +139,18 @@ $(document).ready(function(){
 					url:'/api/book/'+bookId,
 					type: 'DELETE'
 				})
-					.done(function(result){
-						if(result.success == true){
-							toastr.success(result.data.name, '删除成功！');
-							refreshBorrowSection();
-						}else{
-							toastr.error('删除失败！');
-							console.log(result.data);
-						}
-					}).fail(function(error){
+				.done(function(result){
+					if(result.success == true){
+						toastr.success(result.data.name, '删除成功！');
+						refreshBorrowSection();
+					}else{
 						toastr.error('删除失败！');
-						console.log(error);
-					});
+						console.log(result.data);
+					}
+				}).fail(function(error){
+					toastr.error('删除失败！');
+					console.log(error);
+				});
 			} else {
 				return;
 			}
@@ -225,11 +224,12 @@ $(document).ready(function(){
 			var html = compiled({"books" : data});
 
 			$('#book-borrow').html(html);
-			hookEventBorrowSection();
+			hookEventBorrow();
 		};
 	}
 	
-	function refreshAddSection(){
+	//event on object need only be bind once if they are not refresh by ajax!
+	function hookPageEvent(){
 		var covers;
 
 		$('#id_book_cover').on('change', prepareUpload);
@@ -248,9 +248,90 @@ $(document).ready(function(){
 
 			reader.readAsDataURL(cover);
 		}
-	}
 
-	function refreshFastAddSection(){
+		$('#id_submit').on('click', upload);
+
+		function validator(){
+			var book_name = $('#id_book_name').val().trim();
+			var book_author = $('#id_book_author').val().trim();
+			var book_price = $('#id_book_price').val().trim();
+			var book_desc = $('#id_book_desc').val().trim();
+			var book_rate = $('#id_book_rate').val().trim();
+			var book_cover = $('#cover_thumb').prop('title');
+
+			if(book_name === ""){
+				toastr.error("Book Name cannot be empty!");
+				$('#id_book_name').focus();
+				return false;
+			}else if(book_author ===""){
+				toastr.error("Author cannot be empty!");
+				$('#id_book_author').focus();
+				return false;
+			}else if(book_price ===""){
+				toastr.error("Price cannot be empty!");
+				$('#id_book_price').focus();
+				return false;				
+			}else if(book_desc ===""){
+				toastr.error("Description cannot be empty!");
+				$('#id_book_desc').focus();
+				return false;				
+			}else if(book_rate ===""){
+				toastr.error("Rate cannot be empty!");
+				$('#id_book_rate').focus();
+				return false;				
+			}else if(book_cover ===""){
+				toastr.error("Please upload a book cover!");
+				return false;				
+			}else{
+				return true;
+			}
+		}
+
+		function upload(event){
+			event.stopPropagation(); 
+			event.preventDefault();
+
+			if(validator()){
+				var data = new FormData();
+				data.append('book_cover', cover);
+				data.append("book_name", $('#id_book_name').val().trim());
+				data.append("book_author", $('#id_book_author').val().trim());
+				data.append("book_isbn", $('#id_book_isbn').val().trim());
+				data.append("book_price", $('#id_book_price').val().trim());
+				data.append("book_desc", $('#id_book_desc').val().trim());
+				data.append("book_rate", $('#id_book_rate').val().trim());
+				data.append("book_ownername", $('#id_book_ownername').val().trim());
+				data.append("book_owneremail", $('#id_book_owneremail').val().trim());
+
+				$.ajax({
+					url: 'api/book',
+					type: 'POST',
+					data: data,
+					cache: false,
+					dataType: 'json',
+					processData: false,
+					contentType: false
+				})
+				.done(function(result){
+					if(result.success == true){
+						toastr.success(result.data.name, '添加成功！');
+						$('#form_add_book').get(0).reset();
+						$('#cover_thumb').prop('title','');
+						$('#cover_thumb').prop('src','');
+
+						$('#menu_book_borrow').trigger("click");
+					}else{
+						toastr.error('添加失败！');
+						console.log(result.data);
+					}
+				})
+				.fail(function(error){
+					toastr.error('添加失败！');
+					console.log(error);
+				})
+			}
+		}
+
 		$('#btn_fastadd').on('click', function(){
 			var isbn = $('#fastadd_isbn').val();
 			if(isValidISBN(isbn)){

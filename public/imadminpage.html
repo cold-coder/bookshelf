@@ -35,35 +35,35 @@
 			<input type="text" class="field-long" placeholder="ISBN" id="fastadd_isbn"/><button class="btn button-warning" id="btn_fastadd">一键入库</button>
 		</section>
 		<section id="sec_book_add">
-			<form action="/api/book" method="post" enctype="multipart/form-data">
+			<form id="form_add_book" action="/api/book" method="post" enctype="multipart/form-data">
 			<ul class="form-addbook">
 			    <li>
 			      <label>Book Name <span class="required">*</span></label>
 			      <input type="text" id="id_book_name" name="book_name" class="field-long" placeholder="穆斯林的葬礼" required/></li>
 			    <li>
 			        <label>Author <span class="required">*</span></label>
-			        <input type="text" name="book_author" class="field-long" placeholder="霍达" required/>
+			        <input type="text" id="id_book_author" name="book_author" class="field-long" placeholder="霍达" required/>
 			    </li>
 			    <li>
 			        <label>ISBN</label>
-			        <input type="text" name="book_isbn" class="field-long" placeholder="9787530212233"/>
+			        <input type="text" id="id_book_isbn" name="book_isbn" class="field-long" placeholder="9787530212233"/>
 			    </li>
 			    <li>
 			        <label>Price<span class="required">*</span></label>
-			        <input type="text" name="book_price" class="field-divided" placeholder="39.8" required/>
+			        <input type="text" id="id_book_price" name="book_price" class="field-divided" placeholder="39.8" required/>
 			    </li>
 			    <li>
 			        <label>Description<span class="required">*</span></label>
-			        <textarea name="book_desc" class="field-long field-textarea" placeholder="《穆斯林的葬礼》是一部长篇小说，一个穆斯林家族，六十年间的兴衰，三代人命运的沉浮..." required></textarea>
+			        <textarea id="id_book_desc" name="book_desc" class="field-long field-textarea" placeholder="《穆斯林的葬礼》是一部长篇小说，一个穆斯林家族，六十年间的兴衰，三代人命运的沉浮..." required></textarea>
 			    </li>
 			    <li>
 			        <label>Douban Rate<span class="required">*</span></label>
-			        <input type="text" name="book_rate" class="field-divided" placeholder="8.4" required/>
+			        <input type="text" id="id_book_rate" name="book_rate" class="field-divided" placeholder="8.4" required/>
 			    </li>
 			    <li>
 			        <label>Owner</label>
-			        <input type="text" name="book_ownername" class="field-divided" placeholder="Wu Feng Xian"/>
-			        <input type="text" name="book_owneremail" class="field-divided" placeholder="fengxian@ncsi.com.cn"/>
+			        <input type="text" id="id_book_ownername" name="book_ownername" class="field-divided" placeholder="Wu Feng Xian"/>
+			        <input type="text" id="id_book_owneremail" name="book_owneremail" class="field-divided" placeholder="fengxian@ncsi.com.cn"/>
 			    </li>
 			    <li>
 			        <label>Cover<span class="required">*</span></label>
@@ -75,7 +75,7 @@
 			    </li>
 
 			    <li>
-			        <input type="submit" class="btn_upload" value="Submit" />
+			        <input type="submit" class="btn_upload" id="id_submit" value="Submit" />
 			    </li>
 			</ul>
 			</form>	
