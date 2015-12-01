@@ -385,3 +385,6 @@ form{
   height: 45px;
   margin-left: 10px;
 }
+#menu_book_fastadd>i{
+  font-size: 70%;
+}

@@ -81,8 +81,10 @@ router.post('/borrow', function(req, res){
 	bookSvc.borrowBook(bookId, borrower, function(err, book){
 		if(err){
 			res.json({success: false, data: err});
+			return;
 		}else{
 			res.json({success: true, data: book.info});
+			return;
 		}
 	});
 });
@@ -91,8 +93,10 @@ router.get('/return/:id', function(req, res){
 	bookSvc.returnBook(req.params.id, function(err, book){
 		if(err){
 			res.json({success: false, data: err});
+			return;
 		}else{
-			res.json({success: true, data: book.info});			
+			res.json({success: true, data: book.info});
+			return;	
 		}
 
 	});
@@ -143,8 +147,10 @@ app.get('/fastadd/:isbn', function(req, res){
 	bookSvc.addDoubanBook(isbn, function(err, book){
 		if(err){
 			res.json({success: false, data:err});
+			return;
 		}else{
 			res.json({success: true, data: book.info});
+			return;
 		}
 	});
 })
@@ -162,7 +168,7 @@ routerAPI.post('/book', upload.single('book_cover'), function(req, res){
 	book['isbn'] = req.body.book_isbn;
 	book['price'] = req.body.book_price;
 	book['desc'] = req.body.book_desc;
-	book['rate'] = req.body.book_rate;
+	book['rate'] = isNaN(parseFloat(req.body.book_rate)) ? 0 : parseFloat(req.body.book_rate);
 	book['ownername'] = req.body.book_ownername;
 	book['owneremail'] = req.body.book_owneremail;
 	book['imagePath'] = req.file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0,10) + path.extname(req.file.originalname);
@@ -177,8 +183,10 @@ routerAPI.delete('/book/:id', function(req, res){
 	bookSvc.deleteBook(req.params.id, function(err, book){
 		if(err) {
 			res.json({success: false, data:err});
+			return;
 		}else{
 			res.json({success: true, data: book.info});
+			return;
 		}
 	});
 });
