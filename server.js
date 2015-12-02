@@ -1,100 +1,100 @@
-var express = require('express');
-var app = express();
-var bodyParser 	= require('body-parser');
-var bookSvc = require('./core/svc.js');
-var multer = require('multer');
-var basicAuth = require('basic-auth');
-var path = require('path');
-var favicon = require('serve-favicon');
+var express = require('express')
+var app = express()
+var bodyParser 	= require('body-parser')
+var bookSvc = require('./core/svc.js')
+var multer = require('multer')
+var basicAuth = require('basic-auth')
+var path = require('path')
+var favicon = require('serve-favicon')
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/img/')
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0,10) + path.extname(file.originalname));
+    cb(null, file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0, 10) + path.extname(file.originalname))
   }
-});
+})
 
-var upload = multer({ storage: storage });
+var upload = multer({ storage: storage })
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
 
-app.use(express.static('public'));
-app.use(favicon(__dirname + '/public/img/favicon.ico'));
+app.use(express.static('public'))
+app.use(favicon(__dirname + '/public/img/favicon.ico'))
 
-var port = process.env.PORT || 8080; //set our port
+var port = process.env.PORT || 8080 // set our port
 
-var router = express.Router();  
+var router = express.Router()
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     // do logging
-    console.log('Something is happening.');
-    next();
+	console.log('Something is happening.')
+	next()
 });
 
-router.get('/list', function(req, res){
+router.get('/list', function (req, res) {
 	var ipAddress = req.connection.remoteAddress;
 	bookSvc.listAllBooks(ipAddress, function(books){
 		res.json(books);
 	});
 });
 
-router.get('/detail/:id', function(req, res){
-	bookSvc.bookDetail(req.params.id, function(book){
+router.get('/detail/:id', function (req, res) {
+	bookSvc.bookDetail(req.params.id, function(book) {
 		res.json(book);
 	});
 });
 
-router.get('/listavailable', function(req, res){
+router.get('/listavailable', function (req, res) {
 	bookSvc.listAvailableBooks(function(books){
 		res.json(books);
 	});
 });
 
-router.get('/listunavailable', function(req, res){
+router.get('/listunavailable', function (req, res) {
 	bookSvc.listUnavailableBooks(function(books){
 		res.json(books);
 	});
 });
 
-router.get('/like/:id', function(req, res){
+router.get('/like/:id', function (req, res) {
 	var ipAddress = req.connection.remoteAddress;
-	bookSvc.likeBook(req.params.id, ipAddress, function(books){
+	bookSvc.likeBook(req.params.id, ipAddress, function(books) {
 		res.json(books);
 	});
 });
 
-router.get('/unlike/:id', function(req, res){
+router.get('/unlike/:id', function (req, res) {
 	var ipAddress = req.connection.remoteAddress;
-	bookSvc.unLikeBook(req.params.id, ipAddress, function(books){
+	bookSvc.unLikeBook(req.params.id, ipAddress, function(books) {
 		res.json(books);
 	});
 });
 
-router.post('/borrow', function(req, res){
+router.post('/borrow', function (req, res) {
 	var bookId = req.body.bookId;
 	var borrower = {};
 	borrower.name = req.body.name;
 	borrower.email = req.body.email;
-	bookSvc.borrowBook(bookId, borrower, function(err, book){
-		if(err){
+	bookSvc.borrowBook(bookId, borrower, function (err, book) {
+		if (err) {
 			res.json({success: false, data: err});
 			return;
-		}else{
+		} else {
 			res.json({success: true, data: book.info});
 			return;
 		}
 	});
 });
 
-router.get('/return/:id', function(req, res){
-	bookSvc.returnBook(req.params.id, function(err, book){
-		if(err){
+router.get('/return/:id', function (req, res) {
+	bookSvc.returnBook(req.params.id, function (err, book) {
+		if (err) {
 			res.json({success: false, data: err});
 			return;
-		}else{
+		} else {
 			res.json({success: true, data: book.info});
 			return;	
 		}
@@ -102,20 +102,20 @@ router.get('/return/:id', function(req, res){
 	});
 });
 
-router.get('/active/:id', function(req, res){
-	bookSvc.activeBook(req.params.id, function(book){
+router.get('/active/:id', function (req, res) {
+	bookSvc.activeBook(req.params.id, function (book) {
 		res.json(book);
 	});
 });
 
-router.get('/deactive/:id', function(req, res){
-	bookSvc.deactiveBook(req.params.id, function(book){
+router.get('/deactive/:id', function (req, res) {
+	bookSvc.deactiveBook(req.params.id, function (book) {
 		res.json(book);
 	});
 });
 
 
-//admin
+// admin
 // https://davidbeath.com/posts/expressjs-40-basicauth.html
 var auth = function (req, res, next) {
   function unauthorized(res) {
@@ -136,19 +136,18 @@ var auth = function (req, res, next) {
   };
 };
 
-
-app.get('/admin', auth, function(req,res){
-  res.sendFile(path.join(__dirname+'/public/imadminpage.html'));
+app.get('/admin', auth, function (req,res){
+  res.sendFile(path.join(__dirname + '/public/imadminpage.html'));
 });
 
-app.get('/fastadd/:isbn', function(req, res){
+app.get('/fastadd/:isbn', function (req, res) {
 	var isbn = req.params.isbn;
-	//validation for isbn
-	bookSvc.addDoubanBook(isbn, function(err, book){
-		if(err){
-			res.json({success: false, data:err});
+	// validation for isbn
+	bookSvc.addDoubanBook(isbn, function (err, book) {
+		if (err) {
+			res.json({success: false, data: err});
 			return;
-		}else{
+		} else {
 			res.json({success: true, data: book.info});
 			return;
 		}
@@ -159,9 +158,9 @@ app.use('/', router);
 
 var routerAPI = express.Router();
 
-//http://lollyrock.com/articles/express4-file-upload/
+// http://lollyrock.com/articles/express4-file-upload/
 
-routerAPI.post('/book', upload.single('book_cover'), function(req, res){
+routerAPI.post('/book', upload.single('book_cover'), function (req, res) {
 	var book = {};
 	book['name'] = req.body.book_name;
 	book['author'] = req.body.book_author;
@@ -171,33 +170,32 @@ routerAPI.post('/book', upload.single('book_cover'), function(req, res){
 	book['rate'] = isNaN(parseFloat(req.body.book_rate)) ? 0 : parseFloat(req.body.book_rate);
 	book['ownername'] = req.body.book_ownername;
 	book['owneremail'] = req.body.book_owneremail;
-	book['imagePath'] = req.file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0,10) + path.extname(req.file.originalname);
+	book['imagePath'] = req.file.originalname.split('.').shift() + '_' + Date.now().toString().slice(0, 10) + path.extname(req.file.originalname);
 
-	bookSvc.addBook(book, function(err, book){
-		if(err){
+	bookSvc.addBook(book, function (err, book) {
+		if (err) {
 			res.json({success: false, data:err});
 			return;
-		}else{
+		} else {
 			res.json({success: true, data: book.info});
 			return;
 		}
 	})
 });
 
-routerAPI.delete('/book/:id', function(req, res){
-	bookSvc.deleteBook(req.params.id, function(err, book){
-		if(err) {
+routerAPI.delete('/book/:id', function (req, res) {
+	bookSvc.deleteBook(req.params.id, function (err, book) {
+		if (err) {
 			res.json({success: false, data:err});
 			return;
-		}else{
+		} else {
 			res.json({success: true, data: book.info});
 			return;
 		}
 	});
 });
 
-
-app.use('/api', routerAPI);
+app.use('/api', routerAPI)
 
 app.listen(port);
 console.log('Magic happens on port ' + port);
