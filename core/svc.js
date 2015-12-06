@@ -212,8 +212,11 @@ bookSvc.deleteBook = function(bookId, cb){
 		//got the doc and remove the cover
 		// console.log(doc.imagePath); //./img/
 		fs.unlink('./public/'+doc.imagePath, function(err){
-			if(err) cb(err);
-			cb(null, doc);
+			if(err) {
+				cb(err);
+			} else {
+				cb(null, doc);
+			}
 		})
 	});
 }
